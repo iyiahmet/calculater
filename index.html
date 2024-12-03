@@ -1,0 +1,153 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="tr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HESAP MAKİNESİ</title>
+		<style>
+			.hesap_machine {
+				width: 900px;
+				margin: auto;
+				min-height: 100px;
+				text-align: center;
+			}
+			.hesap_machine input {
+				width: 100px;
+			}
+			.hidden {
+				display: none;
+				text-align: center;
+			}
+			.active {
+				display: block;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<h1 style="text-align: center">HESAP MAKİNESİ</h1>
+		</div>
+		<hr />
+		<div class="hesap_machine">
+			<input
+				type="text"
+				id="hesap"
+				placeholder="Sayı giriniz sonra yapmak istediğin işlemin işaretini giriniz. + (toplam) , - (çıkarma) , / (bölme) , *(çarpma)"
+			/>
+			<span>Sonuç: </span><span class="hidde" id="sonuc"></span>
+		</div>
+		<script>
+			var sonuc_txt = document.getElementById("sonuc");
+			var hesap = document.getElementById("hesap");
+			var sayac = 0;
+			var sonuc = 0;
+			var ilk_sayi;
+			var ikinci_sayi = "";
+			var sayi = "";
+			var isaret = "";
+			var ilk = false;
+			var islem_sayac = 0;
+			hesap.addEventListener("input", function hesapla() {
+				if (hesap.value[sayac] == "+") {
+					console.log(hesap.value.length + ". işareti toplama işareti");
+					isaret = "+";
+					islem_sayac++;
+					if (islem_sayac > 1) {
+						sayi = "";
+						ikinci_sayi = "";
+						ilk_sayi = sonuc;
+						sonuc = 0;
+					}
+					sayi_ata();
+				} else if (hesap.value[sayac] == "-") {
+					console.log(hesap.value.length + ". işareti çıkarma işareti");
+					isaret = "-";
+					islem_sayac++;
+					if (islem_sayac > 1) {
+						sayi = "";
+						ikinci_sayi = "";
+						ilk_sayi = sonuc;
+						sonuc = 0;
+					}
+					sayi_ata();
+				} else if (hesap.value[sayac] == "/") {
+					console.log(hesap.value.length + ". işareti bölme işareti");
+					isaret = "/";
+					islem_sayac++;
+					if (islem_sayac > 1) {
+						sayi = "";
+						ikinci_sayi = "";
+						ilk_sayi = sonuc;
+						sonuc = 0;
+					}
+					sayi_ata();
+				} else if (hesap.value[sayac] == "*") {
+					console.log(hesap.value.length + ". işareti bölme işareti");
+					isaret = "*";
+					islem_sayac++;
+					if (islem_sayac > 1) {
+						sayi = "";
+						ikinci_sayi = "";
+						ilk_sayi = sonuc;
+						sonuc = 0;
+					}
+					sayi_ata();
+				} else {
+					sayi += hesap.value[sayac]; // sayıyı al
+					sayi_ata();
+				}
+				sayac++;
+				// islem(isaret);
+				if (hesap.value == "") {
+					sayac = 0;
+					sayi = "";
+					isaret = "";
+					islem_sayac = 0;
+					sonuc_txt.innerHTML = "";
+					ilk_sayi = 0;
+					ikinci_sayi = "";
+					ilk = false;
+				}
+			});
+
+			function sayi_ata() {
+				if (isaret != "") {
+					if (sonuc == 0 && sayi != 0 && ilk == false) {
+						ilk_sayi = parseFloat(sayi);
+						sayi = "";
+
+						ilk = true;
+					} else if (ilk == true) {
+						console.log("ilem sayac :" + islem_sayac);
+						ikinci_sayi = sayi;
+						islem(isaret);
+						ikinci_sayi = "";
+					}
+				}
+			}
+			function islem(char) {
+				if (char != "" && ilk == true) {
+					console.log(ilk_sayi);
+					console.log(ilk);
+					console.log(ikinci_sayi + " ikinci sayı");
+
+					if (char == "+") {
+						sonuc = parseFloat(ilk_sayi) + parseFloat(ikinci_sayi);
+					} else if (char == "-") {
+						sonuc = parseFloat(ilk_sayi) - parseFloat(ikinci_sayi);
+					} else if (char == "/") {
+						sonuc = parseFloat(ilk_sayi) / parseFloat(ikinci_sayi);
+					} else if (char == "*") {
+						sonuc = parseFloat(ilk_sayi) * parseFloat(ikinci_sayi);
+					} else {
+						alert("Yanlış bir oparetör girdiniz, lütfen düzeltin");
+					}
+					sonuc_txt.innerHTML = sonuc;
+				}
+			}
+		</script>
+	</body>
+</html>
